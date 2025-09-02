@@ -76,6 +76,7 @@ export function UserRegistration({ onBack }: UserRegistrationProps) {
     try {
       const isValid = await validateForm()
       if (isValid) {
+        console.log("[v0] Form validation passed, moving to questionnaire")
         setCurrentStep("questionnaire")
       }
     } finally {
@@ -95,6 +96,7 @@ export function UserRegistration({ onBack }: UserRegistrationProps) {
       }
 
       await firebaseStorage.saveUser(completeUser)
+      console.log("[v0] User registration completed successfully")
 
       // Redirect back to home
       onBack()

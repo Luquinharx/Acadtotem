@@ -1,6 +1,15 @@
 import { db, isFirebaseAvailable } from "@/lib/firebase"
 import type { StoredUser, WorkoutHistory } from "@/lib/user-storage"
 
+// Verificar se Firebase está disponível
+let firebaseAvailable = false
+try {
+  firebaseAvailable = !!db && isFirebaseAvailable
+} catch (error) {
+  console.log("[v0] Firebase not available, using localStorage fallback")
+  firebaseAvailable = false
+}
+
 const localStorageBackup = {
   async saveUser(user: StoredUser): Promise<void> {
     try {
@@ -412,6 +421,5 @@ const firebaseImplementation = {
   },
 }
 
-export const firebaseStorage = isFirebaseAvailable ? firebaseImplementation : localStorageBackup
+export const firebaseStorage = firebaseAvailable ? firebaseImplementation : localStorageBackup
 
-console.log(`[v0] Using ${isFirebaseAvailable ? "Firebase" : "localStorage"} for data storage`)

@@ -1,6 +1,10 @@
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 
+let isFirebaseAvailable = false
+let app: any = null
+let db: any = null
+
 const firebaseConfig = {
   apiKey: "AIzaSyD2RQd3V5QKYqShQdZm-nipGkWKfm4BD64",
   authDomain: "acad2-26302.firebaseapp.com",
@@ -11,7 +15,14 @@ const firebaseConfig = {
   measurementId: "G-BSBTKMLM4R",
 }
 
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
+try {
+  app = initializeApp(firebaseConfig)
+  db = getFirestore(app)
+  isFirebaseAvailable = true
+  console.log("[v0] Firebase initialized successfully")
+} catch (error) {
+  console.log("[v0] Firebase initialization failed, will use localStorage fallback:", error)
+  isFirebaseAvailable = false
+}
 
-export { db }
+export { db, isFirebaseAvailable }

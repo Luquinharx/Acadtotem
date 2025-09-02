@@ -123,7 +123,7 @@ export function WorkoutDisplay({ user, onBack, onLogout }: WorkoutDisplayProps) 
           try {
             weeklyPlan = await geminiWorkoutGenerator.generateWeeklyWorkout(user, workoutIntensity, workoutDistribution)
             await firebaseStorage.saveWeeklyWorkout(user.cpf, weeklyPlan)
-            console.log("[v0] Weekly workout generated and saved successfully")
+            console.log("[v0] Weekly workout generated and saved successfully:", Object.keys(weeklyPlan))
           } catch (genError) {
             console.error("[v0] Error generating workout with Gemini:", genError)
             // Fallback to basic workout if Gemini fails
